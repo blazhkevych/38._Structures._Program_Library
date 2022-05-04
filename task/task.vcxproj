@@ -24,6 +24,7 @@
     <ProjectGuid>{324c19ab-c3a1-4a6f-8840-c6198cd8a8b2}</ProjectGuid>
     <RootNamespace>task</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>The_Library</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -140,7 +141,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="lib.cpp" />
-    <ClCompile Include="task.cpp" />
+    <ClCompile Include="The_Library.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lib.h" />
