@@ -46,10 +46,10 @@ int main()
 	char menu[][50] = {
 		"1. Добавление книг", // Готово
 		"2. Печать всех книг", // Готово
-		"3. Удаление книги по указанному критерию",
-		"4. Редактирование книги",
-		"5. Поиск книг по автору" ,
-		"6. Поиск книги по названию" ,
+		"3. Удаление книги по указанному критерию", // Готово
+		"4. Редактирование книги", // Готово
+		"5. Поиск книг по автору" , // Готово
+		"6. Поиск книги по названию" , // Готово
 		"7. Сортировка книг по названию" ,
 		"8. Сортировка книг по автору" ,
 		"9. Сортировка книг по издательству" };
@@ -64,6 +64,7 @@ int main()
 			AddBooks(b);
 			break;
 		case '2':
+			PrintHeaderBooks();
 			PrintBooks(b);
 			break;
 		case '3':
@@ -73,19 +74,19 @@ int main()
 			EditBook(b);
 			break;
 		case '5':
-
+			SearchBookByAuthor(b);
 			break;
 		case '6':
-
+			BookSearchByTitle(b);
 			break;
 		case '7':
-
+			SortBooksByTitle(b);
 			break;
 		case '8':
-
+			SortBooksByAuthor(b);
 			break;
 		case '9':
-
+			SortBooksByPublisher(b);
 			break;
 		}
 	}

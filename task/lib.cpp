@@ -3,7 +3,10 @@
 #include <conio.h>
 #include <iomanip>
 #include "lib.h"
-using namespace std;
+using std::cout;
+using std::endl;
+using std::cin;
+using std::setw;
 
 // Меню
 void Menu(char ptr[][50], int row)
@@ -198,16 +201,16 @@ void EditBook(ArrayBooks& b)
 	system("cls");
 	char Title[100], Author[100];
 	cout << "Введите название книги: ";
-	cin >> Title;
+	cin.getline(Title, 100);
 	cout << "Введите автора книги: ";
-	cin >> Author;
+	cin.getline(Author, 100);
 	for (int i = 0; i < b.Count; i++)
 	{
 		if (!strcmp(Title, b.PtrBook[i]->title) && !strcmp(Author, b.PtrBook[i]->author))
 		{
 			cout << "Введите новые данные!\n";
 			InputData(b.PtrBook[i]);
-			cout << "Данные книги изменены!";
+			cout << "\nДанные книги изменены!";
 			_getch();
 			return;
 		}
@@ -216,8 +219,8 @@ void EditBook(ArrayBooks& b)
 	_getch();
 }
 
-// Вывод книг на экран
-void PrintBooks(ArrayBooks& b)
+// Вывод хедера списка книг на экран
+void PrintHeaderBooks()
 {
 	system("cls");
 	cout << setw(25);
@@ -231,6 +234,11 @@ void PrintBooks(ArrayBooks& b)
 	cout << setw(15);
 	cout << "Жанр";
 	cout << endl << endl;
+}
+
+// Вывод списка книг на экран 
+void PrintBooks(ArrayBooks& b)
+{
 	for (int i = 0; i < b.Count; i++)
 	{
 		cout << setw(25) << (*b.PtrBook[i]).title
@@ -243,6 +251,17 @@ void PrintBooks(ArrayBooks& b)
 	_getch();
 }
 
+// Вывод 1 книги на экран 
+void Print1Book(ArrayBooks& b, int i)
+{
+	cout << setw(25) << (*b.PtrBook[i]).title
+		<< setw(25) << (*b.PtrBook[i]).author
+		<< setw(25) << (*b.PtrBook[i]).publishingHouse
+		<< setw(20) << (*b.PtrBook[i]).yearOfPublishing
+		<< setw(15) << (*b.PtrBook[i]).genre
+		<< endl;
+}
+
 // Удаление книги
 void Destroy(ArrayBooks& b)
 {
@@ -250,4 +269,131 @@ void Destroy(ArrayBooks& b)
 		delete b.PtrBook[i];
 	delete[] b.PtrBook;
 	memset(&b, 0, sizeof(ArrayBooks));
+}
+
+// Поиск книг по автору
+void SearchBookByAuthor(ArrayBooks& b)
+{
+	system("cls");
+	char Author[100];
+	cout << "Введите автора книги: ";
+	cin.getline(Author, 100);
+	bool flag{ false };
+	int headerFlag{ 0 };
+	for (int i = 0; i < b.Count; i++)
+	{
+		if (!strcmp(Author, b.PtrBook[i]->author))
+		{
+			headerFlag++;
+			if (headerFlag == 1)
+				PrintHeaderBooks();
+			flag = true;
+			Print1Book(b, i);
+		}
+	}
+	if (flag == false)
+	{
+		cout << "Книга не найдена!";
+		_getch();
+	}
+	_getch();
+	return;
+}
+
+// Поиск книги по названию
+void BookSearchByTitle(ArrayBooks& b)
+{
+	system("cls");
+	char Author[100];
+	cout << "Введите название книги: ";
+	cin.getline(Author, 100);
+	bool flag{ false };
+	int headerFlag{ 0 };
+	for (int i = 0; i < b.Count; i++)
+	{
+		if (!strcmp(Author, b.PtrBook[i]->title))
+		{
+			headerFlag++;
+			if (headerFlag == 1)
+				PrintHeaderBooks();
+			flag = true;
+			Print1Book(b, i);
+		}
+	}
+	if (flag == false)
+	{
+		cout << "Книга не найдена!";
+		_getch();
+	}
+	_getch();
+	return;
+}
+
+// Сортировка книг по названию
+void SortBooksByTitle(ArrayBooks& b)
+{
+	system("cls");
+	for (int startIndex = 0; startIndex < b.Count; ++startIndex)
+	{
+		int biggerIndex = startIndex;
+
+		for (int currentIndex = startIndex + 1; currentIndex < b.Count; ++currentIndex)
+		{
+			if (strcmp(b.PtrBook[currentIndex]->title, b.PtrBook[biggerIndex]->title) < 0) // Сортировка по убыванию
+				biggerIndex = currentIndex;
+		}
+
+		Book* temp = b.PtrBook[startIndex];
+		b.PtrBook[startIndex] = b.PtrBook[biggerIndex];
+		b.PtrBook[biggerIndex] = temp;
+	}
+
+	cout << "Список отсортирован!\n ";
+	_getch();
+}
+
+// Сортировка книг по автору
+void SortBooksByAuthor(ArrayBooks& b)
+{
+	system("cls");
+	for (int startIndex = 0; startIndex < b.Count; ++startIndex)
+	{
+		int biggerIndex = startIndex;
+
+		for (int currentIndex = startIndex + 1; currentIndex < b.Count; ++currentIndex)
+		{
+			if (strcmp(b.PtrBook[currentIndex]->author, b.PtrBook[biggerIndex]->author) < 0) // Сортировка по убыванию
+				biggerIndex = currentIndex;
+		}
+
+		Book* temp = b.PtrBook[startIndex];
+		b.PtrBook[startIndex] = b.PtrBook[biggerIndex];
+		b.PtrBook[biggerIndex] = temp;
+	}
+
+	cout << "Список отсортирован!\n ";
+	_getch();
+}
+
+// Сортировка книг по издательству
+void SortBooksByPublisher(ArrayBooks& b)
+{
+	system("cls");
+	for (int startIndex = 0; startIndex < b.Count; ++startIndex)
+	{
+		int biggerIndex = startIndex;
+
+		for (int currentIndex = startIndex + 1; currentIndex < b.Count; ++currentIndex)
+		{
+			if (strcmp(b.PtrBook[currentIndex]->publishingHouse, b.PtrBook[biggerIndex]->publishingHouse) < 0) // Сортировка по убыванию
+				biggerIndex = currentIndex;
+		}
+
+		Book* temp = b.PtrBook[startIndex];
+		b.PtrBook[startIndex] = b.PtrBook[biggerIndex];
+		b.PtrBook[biggerIndex] = temp;
+	}
+
+	cout << "Список отсортирован!\n ";
+	_getch();
 }
